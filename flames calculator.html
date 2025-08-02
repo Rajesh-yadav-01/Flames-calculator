@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FLAMES Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff4e50, #f9d423);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #ff4e50;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 FLAMES Game 🔥</h1>
+  <input type="text" id="name1" placeholder="Your Name" />
+  <br />
+  <input type="text" id="name2" placeholder="Crush's Name" />
+  <br />
+  <button onclick="calculateFLAMES()">Calculate</button>
+
+  <div class="result" id="resultBox"></div>
+
+  <script>
+    function calculateFLAMES() {
+      let name1 = document.getElementById("name1").value.toLowerCase().replace(/\s/g, "");
+      let name2 = document.getElementById("name2").value.toLowerCase().replace(/\s/g, "");
+
+      if (name1 === "" || name2 === "") {
+        document.getElementById("resultBox").innerText = "Please enter both names.";
+        return;
+      }
+
+      let name1Arr = name1.split("");
+      let name2Arr = name2.split("");
+
+      // Remove common letters
+      for (let i = 0; i < name1Arr.length; i++) {
+        let index = name2Arr.indexOf(name1Arr[i]);
+        if (index !== -1) {
+          name1Arr[i] = "";
+          name2Arr[index] = "";
+        }
+      }
+
+      let count = (name1Arr.join("") + name2Arr.join("")).length;
+      let flames = ["F", "L", "A", "M", "E", "S"];
+      let meanings = {
+        F: "Friends",
+        L: "Love",
+        A: "Affection",
+        M: "Marriage",
+        E: "Enemies",
+        S: "Siblings"
+      };
+
+      let index = 0;
+      while (flames.length > 1) {
+        index = (index + count - 1) % flames.length;
+        flames.splice(index, 1);
+      }
+
+      let result = meanings[flames[0]];
+      document.getElementById("resultBox").innerText = "Relationship: " + result;
+    }
+  </script>
+</body>
+</html>
